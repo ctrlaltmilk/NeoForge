@@ -9,11 +9,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.Objects;
 import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.IQuadTransformer;
 import org.joml.Vector3f;
@@ -136,20 +134,5 @@ public abstract class QuadLighter {
     public static float calculateShade(float normalX, float normalY, float normalZ, boolean constantAmbientLight) {
         float yFactor = constantAmbientLight ? 0.9F : ((3.0F + normalY) / 4.0F);
         return Math.min(normalX * normalX * 0.6F + normalY * normalY * yFactor + normalZ * normalZ * 0.8F, 1.0F);
-    }
-
-    /**
-     * Note: This method is subtly different than {@link net.minecraft.client.renderer.LevelRenderer#getLightColor(BlockAndTintGetter, BlockState, BlockPos)}
-     * as it only uses the state for querying if the state has emissive rendering but instead looks up the state at the given position for checking the
-     * light emission.
-     */
-    @Deprecated(forRemoval = true, since = "1.20.1")
-    protected static int getLightColor(BlockAndTintGetter level, BlockPos pos, BlockState state) {
-        if (state.emissiveRendering(level, pos)) {
-            return LightTexture.FULL_BRIGHT;
-        }
-        int skyLight = level.getBrightness(LightLayer.SKY, pos);
-        int blockLight = Math.max(level.getBrightness(LightLayer.BLOCK, pos), level.getBlockState(pos).getLightEmission(level, pos));
-        return skyLight << 20 | blockLight << 4;
     }
 }

@@ -19,7 +19,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
@@ -67,12 +66,6 @@ public class ResourcePackLoader {
         resourcePacks.addPackFinder(buildPackFinder(modResourcePacks, packType));
         // Then fire the event to add more packs
         ModLoader.postEvent(new AddPackFindersEvent(packType, resourcePacks::addPackFinder));
-    }
-
-    @Deprecated(forRemoval = true, since = "1.20.4")
-    public static void loadResourcePacks(PackRepository resourcePacks, Function<Map<IModFile, Pack.ResourcesSupplier>, RepositorySource> packFinder) {
-        findResourcePacks();
-        resourcePacks.addPackFinder(packFinder.apply(modResourcePacks));
     }
 
     private synchronized static void findResourcePacks() {
