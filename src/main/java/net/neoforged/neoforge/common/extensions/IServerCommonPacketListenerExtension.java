@@ -87,21 +87,21 @@ public interface IServerCommonPacketListenerExtension {
      * Checks if the connection has negotiated and opened a channel for the payload.
      *
      * @param payloadId The payload id to check
-     * @returns true if a payload with this id may be sent over this connection.
+     * @return true if a payload with this id may be sent over this connection.
      */
     default boolean hasChannel(final ResourceLocation payloadId) {
         return NetworkRegistry.hasChannel(self(), payloadId);
     }
 
     /**
-     * @see {@link #hasChannel(ResourceLocation)}
+     * @see #hasChannel(ResourceLocation)
      */
     default boolean hasChannel(final CustomPacketPayload.Type<?> type) {
         return hasChannel(type.id());
     }
 
     /**
-     * @see {@link #hasChannel(ResourceLocation)}
+     * @see #hasChannel(ResourceLocation)
      */
     default boolean hasChannel(final CustomPacketPayload payload) {
         return hasChannel(payload.type());
